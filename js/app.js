@@ -3,6 +3,7 @@
   const janela = document.getElementById('janela');
   const titulo = document.getElementById('janela-titulo');
   const corpo = document.getElementById('janela-corpo');
+  const arte = document.getElementById('janela-arte');
   const btAnterior = document.getElementById('janela-anterior');
   const btProximo = document.getElementById('janela-proximo');
   const btFechar = document.getElementById('janela-fechar');
@@ -19,22 +20,20 @@
     if (!det) return;
     atual = el;
     titulo.textContent = det.dataset.titulo || '';
-    corpo.innerHTML = '';
+    // a imagem fica fixa, inteira e sem corte; só o texto rola
+    arte.innerHTML = '';
+    arte.hidden = true;
     if (det.dataset.arte) {
-      const caixa = document.createElement('div');
-      caixa.className = 'arte-detalhe';
       const img = document.createElement('img');
       img.src = det.dataset.arte;
       img.alt = det.dataset.arteAlt || '';
-      img.onerror = function () { caixa.remove(); };
-      if (/\/fotos\//.test(det.dataset.arte)) caixa.classList.add('com-foto');
-      if (det.dataset.arteInteira) caixa.classList.add('inteira');
-      caixa.appendChild(img);
-      corpo.appendChild(caixa);
+      img.onload = function () { arte.hidden = false; };
+      img.onerror = function () { arte.innerHTML = ''; arte.hidden = true; };
+      arte.appendChild(img);
+      arte.hidden = false;
     }
-    const conteudo = document.createElement('div');
-    conteudo.innerHTML = det.innerHTML;
-    corpo.appendChild(conteudo);
+    corpo.innerHTML = det.innerHTML;
+    corpo.hidden = !corpo.textContent.trim();
     corpo.scrollTop = 0;
 
     const grupo = grupoDe(el);

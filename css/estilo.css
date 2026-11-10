@@ -410,3 +410,28 @@ body.janela-aberta { overflow: hidden; }
   .passos-finais > :nth-child(3) { grid-column: 2; grid-row: 1 / span 2; }
 }
 @media (min-width: 760px) { .passos-finais > :nth-child(3) { display: flex; align-items: center; } }
+
+/* janela de detalhe: imagem inteira e fixa, só o texto rola */
+dialog.janela { width: min(580px, calc(100% - 32px)); max-height: min(90vh, 880px); overflow: hidden; }
+dialog.janela[open] { display: flex; flex-direction: column; }
+.janela-cabeca { position: static; flex: none; }
+.janela-arte { flex: none; padding: 16px 22px 0; }
+.janela-arte img {
+  display: block; width: auto; height: auto; max-width: 100%;
+  max-height: min(48vh, 440px); margin: 0 auto; border-radius: 18px; object-fit: contain;
+}
+.janela-corpo {
+  flex: 1 1 auto; min-height: 72px; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: rgba(58, 46, 37, .3) transparent;
+}
+.janela-corpo::-webkit-scrollbar { width: 8px; }
+.janela-corpo::-webkit-scrollbar-track { background: transparent; }
+.janela-corpo::-webkit-scrollbar-thumb { background: rgba(58, 46, 37, .3); border-radius: 8px; }
+.janela-pe { flex: none; padding-top: 12px; }
+.janela-pe:has(button:not([hidden])) { border-top: 1px solid var(--borda); }
+@media (max-width: 599px) {
+  dialog.janela { width: 100%; max-height: 92vh; }
+  .janela-arte { padding: 12px 16px 0; }
+  .janela-arte img { max-height: 40vh; }
+  .janela-corpo { padding: 16px 18px 18px; }
+}
